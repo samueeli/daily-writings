@@ -1,6 +1,11 @@
+require('dotenv').config();
+const connectDB = require('./config/db');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Connect database
+connectDB();
 
 app.get('/', (req, res) => res.send('Hello man'));
 
