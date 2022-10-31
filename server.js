@@ -7,9 +7,12 @@ const PORT = process.env.PORT || 5000;
 // Connect database
 connectDB();
 
+// Init middleware
+app.use(express.json({ extended: false }));
+
 app.get('/', (req, res) => res.send('Hello man'));
 
-// Routes init
+// Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/writings', require('./routes/writings'));
 app.use('/api/auth', require('./routes/auth'));
