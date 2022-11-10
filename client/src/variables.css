@@ -1,0 +1,7 @@
+:root {
+  --color-stroke: rgba(0, 0, 0, 0.3);
+  --border-radius: 1rem;
+  --spacing-1: 1rem;
+  --spacing-2: 2rem;
+  --shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+}

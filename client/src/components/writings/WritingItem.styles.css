@@ -1,0 +1,56 @@
+@import url('../../variables.css');
+
+.WritingItemContainer {
+  border: 2px solid var(--color-stroke);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-1);
+  margin-bottom: var(--spacing-1);
+  overflow: hidden;
+  max-height: 6rem;
+  box-shadow: 0;
+  position: relative;
+  transition: max-height 0.2s, box-shadow 0.2s;
+}
+
+.WritingItemContainer:hover {
+  box-shadow: var(--shadow);
+}
+
+.WritingItemContainer.open {
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+.WritingItemContainer .WritingItemHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-1);
+}
+
+.WritingItemHeading h3 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.WritingItemContainer .expand button {
+  transition: transform 0.2s;
+}
+
+.WritingItemContainer.open .expand button {
+  transform: rotate(180deg);
+}
+
+.WritingItemContainer .bottomFader {
+  position: absolute;
+  height: 2rem;
+  width: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0), white);
+  bottom: 0;
+}
+
+.WritingItemContainer.open .bottomFader {
+  height: 0;
+}

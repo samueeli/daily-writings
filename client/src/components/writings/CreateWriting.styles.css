@@ -1,0 +1,10 @@
+@import url(../../variables.css);
+
+.CreateWritingContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.CreateWritingContainer > *:not(:last-child) {
+  margin-bottom: var(--spacing-2) !important;
+}
