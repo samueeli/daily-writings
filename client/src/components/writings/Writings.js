@@ -7,7 +7,10 @@ const Writings = () => {
 
   const { writings } = writingContext;
 
-  // title={writing.title} text={writing.text}
+  if (writings === null || writings.length === 0) {
+    return <p>No writings were found</p>;
+  }
+
   return (
     <>
       <h2>Your Writings</h2>

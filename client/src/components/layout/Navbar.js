@@ -4,6 +4,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+import './Navbar.styles.css';
 
 // TODO
 // If loggen in, show only "logout" btn
@@ -18,9 +21,16 @@ export const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             DailyWritings
           </Typography>
-          <Button variant="contained" disableElevation>
-            Login
-          </Button>
+          <Link to="login">
+            <Button variant="contained" disableElevation>
+              Login
+            </Button>
+          </Link>
+          <Link to="register">
+            <Button variant="contained" disableElevation>
+              Register
+            </Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
