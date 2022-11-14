@@ -6,7 +6,7 @@ import './WritingItem.styles.css';
 
 export const WritingItem = ({ id, title, text }) => {
   const writingContext = useContext(WritingContext);
-  const { deleteWriting } = writingContext;
+  const { deleteWriting, setCurrent, clearCurrent } = writingContext;
 
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,11 +25,17 @@ export const WritingItem = ({ id, title, text }) => {
 
   const onEdit = () => {
     console.log('edited something');
+    setCurrent({
+      id,
+      title,
+      text,
+    });
     handleClose();
   };
 
   const onDelete = () => {
     deleteWriting(id);
+    clearCurrent();
     handleClose();
   };
 

@@ -29,6 +29,7 @@ const WritingState = (props) => {
         text: 'text3',
       },
     ],
+    current: null,
   };
 
   const [state, dispatch] = useReducer(writingReducer, initialState);
@@ -45,15 +46,30 @@ const WritingState = (props) => {
   };
 
   // set current writing
+  const setCurrent = (writing) => {
+    dispatch({ type: SET_CURRENT, payload: writing });
+  };
+
   // clear current writing
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
+
   // update writing
+  const updateWriting = (writing) => {
+    dispatch({ type: UPDATE_WRITING, payload: writing });
+  };
 
   return (
     <WritingContext.Provider
       value={{
         writings: state.writings,
+        current: state.current,
         addWriting,
         deleteWriting,
+        setCurrent,
+        clearCurrent,
+        updateWriting,
       }}
     >
       {props.children}

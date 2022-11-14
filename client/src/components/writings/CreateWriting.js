@@ -1,13 +1,24 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
 import WritingContext from '../../context/writing/writingContext';
 
 import './CreateWriting.styles.css';
 
-// TODO add "SAVE WRITING" to btn when editing an existing writing
-
 export const CreateWriting = () => {
   const writingContext = useContext(WritingContext);
+
+  const { addWriting, updateWriting, current, clearCurrent } = writingContext;
+
+  useEffect(() => {
+    if (current !== null) {
+      setWriting(current);
+    } else {
+      setWriting({
+        title: '',
+        text: '',
+      });
+    }
+  }, [writingContext, current]);
 
   const [writing, setWriting] = useState({
     title: '',
@@ -21,18 +32,21 @@ export const CreateWriting = () => {
   };
 
   const handleSubmit = () => {
-    console.log('submitted a writing');
-    console.log('samulin writing', writing);
-    writingContext.addWriting(writing);
-    setWriting({
-      title: '',
-      text: '',
-    });
+    if (current === null) {
+      addWriting(writing);
+    } else {
+      updateWriting(writing);
+    }
+    clearEdits();
+  };
+
+  const clearEdits = () => {
+    clearCurrent();
   };
 
   return (
     <div className="CreateWritingContainer">
-      <h2>Create a New Writing</h2>
+      <h2>{current ? 'Edit Writing' : 'Create a New Writing'}</h2>
       <TextField
         label="Title"
         placeholder="Add a title"
@@ -50,8 +64,13 @@ export const CreateWriting = () => {
         onChange={onChange}
       />
       <Button variant="contained" onClick={handleSubmit}>
-        Create writing
+        {current ? 'Update Writing' : 'Create Writing'}
       </Button>
+      {current && (
+        <Button variant="outlined" onClick={clearEdits}>
+          Undo edits
+        </Button>
+      )}
     </div>
   );
 };
