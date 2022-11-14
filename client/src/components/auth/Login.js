@@ -23,6 +23,7 @@ const Login = () => {
     <div className="RegisterContainer">
       <h2>Login To Your Account</h2>
       <TextField
+        type="email"
         label="Email"
         placeholder="Add your email"
         name="email"
@@ -30,11 +31,13 @@ const Login = () => {
         onChange={onChange}
       />
       <TextField
+        type="password"
         label="Password"
         placeholder="Add your password"
         name="password"
         value={password}
         onChange={onChange}
+        autoComplete="new-password"
       />
       <Button variant="contained" onClick={handleLogin}>
         Login
