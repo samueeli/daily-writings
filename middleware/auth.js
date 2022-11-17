@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 module.exports = (req, res, next) => {
   //get token from header
   const token = req.header('x-auth-token');
 
-  console.log('samulin req', req.header('x-auth-token'));
+  console.log('samuiln middleware', token);
 
   // check if token is not found
   if (!token) {

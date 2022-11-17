@@ -1,24 +1,23 @@
-import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useAuth, logout } from '../../context/auth/AuthState';
+import { useWritings, clearWritings } from '../../context/writing/WritingState';
+
 import './Navbar.styles.css';
-import AuthContext from '../../context/auth/authContext';
-import WritingContext from '../../context/writing/writingContext';
 
 export const Navbar = () => {
-  const authContext = useContext(AuthContext);
-  const writingContext = useContext(WritingContext);
+  const [authState, authDispatch] = useAuth();
+  const { isAuthenticated, user } = authState;
 
-  const { isAuthenticated, logout, user } = authContext;
-  const { clearWritings } = writingContext;
+  const writingDispatch = useWritings()[1];
 
   const onLogout = () => {
-    logout();
-    clearWritings();
+    logout(authDispatch);
+    clearWritings(writingDispatch);
   };
 
   return (

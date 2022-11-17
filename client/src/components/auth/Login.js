@@ -2,24 +2,23 @@ import { Button, TextField } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import AlertContext from '../../context/alert/alertContext';
-import AuthContext from '../../context/auth/authContext';
+import { useAuth, clearErrors, login } from '../../context/auth/AuthState';
 
 import './Register.styles.css';
 
 const Login = () => {
   const alertContext = useContext(AlertContext);
-  const authContext = useContext(AuthContext);
-
   const { setAlert } = alertContext;
-  const { login, error, clearErrors, isAuthenticated } = authContext;
+
+  const [authState, authDispatch] = useAuth();
+  const { error, isAuthenticated } = authState;
 
   useEffect(() => {
     if (error === 'Email or password is incorrect') {
       setAlert(error, 'error');
-      clearErrors();
+      clearErrors(authDispatch);
     }
-    // eslint-disable-next-line
-  }, [error]);
+  }, [error, isAuthenticated, authDispatch, setAlert]);
 
   const [user, setUser] = useState({
     email: '',
@@ -36,7 +35,7 @@ const Login = () => {
     if (email === '' || password === '') {
       setAlert('Please fill in all the fields', 'error');
     } else {
-      login({
+      login(authDispatch, {
         email,
         password,
       });

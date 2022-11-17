@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { body, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
-const User = require('../models/userModel');
 const Writing = require('../models/writingModel');
 
 // @route   GET api/writings
@@ -28,8 +27,8 @@ router.post(
   '/',
   [
     auth,
-    body('title', 'Title is required').notEmpty(),
-    body('text', 'Writing is required').notEmpty(),
+    check('title', 'Title is required').notEmpty(),
+    check('text', 'Writing is required').notEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);

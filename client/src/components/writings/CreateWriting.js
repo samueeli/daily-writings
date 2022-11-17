@@ -1,29 +1,33 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
-import WritingContext from '../../context/writing/writingContext';
+import {
+  addWriting,
+  useWritings,
+  updateWriting,
+  clearCurrent,
+} from '../../context/writing/WritingState';
 
 import './CreateWriting.styles.css';
 
-export const CreateWriting = () => {
-  const writingContext = useContext(WritingContext);
+const initialWriting = {
+  title: '',
+  text: '',
+};
 
-  const { addWriting, updateWriting, current, clearCurrent } = writingContext;
+export const CreateWriting = () => {
+  const [writingState, writingDispatch] = useWritings();
+
+  const { current } = writingState;
+
+  const [writing, setWriting] = useState(initialWriting);
 
   useEffect(() => {
     if (current !== null) {
       setWriting(current);
     } else {
-      setWriting({
-        title: '',
-        text: '',
-      });
+      setWriting(initialWriting);
     }
-  }, [writingContext, current]);
-
-  const [writing, setWriting] = useState({
-    title: '',
-    text: '',
-  });
+  }, [current]);
 
   const { title, text } = writing;
 
@@ -33,15 +37,17 @@ export const CreateWriting = () => {
 
   const handleSubmit = () => {
     if (current === null) {
-      addWriting(writing);
+      addWriting(writingDispatch, writing).then(() =>
+        setWriting(initialWriting)
+      );
     } else {
-      updateWriting(writing);
+      updateWriting(writingDispatch, writing);
     }
     clearEdits();
   };
 
   const clearEdits = () => {
-    clearCurrent();
+    clearCurrent(writingDispatch);
   };
 
   return (

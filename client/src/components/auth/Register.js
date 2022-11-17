@@ -2,24 +2,23 @@ import { Button, TextField } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import AlertContext from '../../context/alert/alertContext';
-import AuthContext from '../../context/auth/authContext';
+import { useAuth, clearErrors, register } from '../../context/auth/AuthState';
 
 import './Register.styles.css';
 
 const Register = (props) => {
   const alertContext = useContext(AlertContext);
-  const authContext = useContext(AuthContext);
+  const [authState, authDispatch] = useAuth();
+  const { error, isAuthenticated } = authState;
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
     if (error === 'User already exists') {
-      setAlert(error, 'error');
-      clearErrors();
+      setAlert(error, 'danger');
+      clearErrors(authDispatch);
     }
-    // eslint-disable-next-line
-  }, [error]);
+  }, [error, isAuthenticated, props.history, setAlert, authDispatch]);
 
   const [user, setUser] = useState({
     name: '',
@@ -30,9 +29,7 @@ const Register = (props) => {
 
   const { name, email, password, password2 } = user;
 
-  const onChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
+  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
   const handleRegister = () => {
     if (name === '' || email === '' || password === '') {
@@ -42,7 +39,7 @@ const Register = (props) => {
     } else if (password.length < 6) {
       setAlert('Password must be at least 6 characters', 'error');
     } else {
-      register({
+      register(authDispatch, {
         name,
         email,
         password,

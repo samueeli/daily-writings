@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
@@ -14,112 +14,103 @@ import {
   CLEAR_ERRORS,
 } from '../types';
 
+// Create a custom hook to use the auth context
+
+export const useAuth = () => {
+  const { state, dispatch } = useContext(AuthContext);
+  return [state, dispatch];
+};
+
+// Action creators
+
+// Load User
+export const loadUser = async (dispatch) => {
+  try {
+    const res = await axios.get('/api/auth');
+
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR });
+  }
+};
+
+// Register User
+export const register = async (dispatch, formData) => {
+  try {
+    const res = await axios.post('/api/users', formData);
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data,
+    });
+
+    loadUser(dispatch);
+  } catch (err) {
+    dispatch({
+      type: REGISTER_FAIL,
+      payload: err.response.data.msg,
+    });
+  }
+};
+
+// Login User
+export const login = async (dispatch, formData) => {
+  try {
+    const res = await axios.post('/api/auth', formData);
+
+    console.log('samulin contenxt-res', res.data);
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+
+    loadUser(dispatch);
+  } catch (err) {
+    dispatch({
+      type: LOGIN_FAIL,
+      payload: err.response.data.msg,
+    });
+  }
+};
+
+// Logout
+export const logout = (dispatch) => {
+  dispatch({ type: LOGOUT });
+};
+
+// Clear Errors
+export const clearErrors = (dispatch) => dispatch({ type: CLEAR_ERRORS });
+
 const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
-    user: null,
     loading: true,
+    user: null,
     error: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  //load user
-  const loadUser = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
+  // set token on initial app loading
+  setAuthToken(state.token);
 
-    try {
-      const res = await axios.get('/api/auth');
+  // load user on first run or refresh
+  if (state.loading) {
+    loadUser(dispatch);
+  }
 
-      console.log('samulin loaduser', res.data);
-
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: AUTH_ERROR,
-      });
-    }
-  };
-
-  //register user
-  const register = async (data) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    try {
-      const res = await axios.post('api/users', data, config);
-
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
-      loadUser();
-    } catch (error) {
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: error.response.data.msg,
-      });
-    }
-  };
-
-  //login user
-  const login = async (data) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    try {
-      const res = await axios.post('api/auth', data, config);
-
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
-      });
-      loadUser();
-    } catch (error) {
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: error.response.data.msg,
-      });
-    }
-  };
-
-  //logout
-  const logout = () => {
-    dispatch({ type: LOGOUT });
-  };
-
-  //clear errors
-  const clearErrors = () => {
-    dispatch({ type: CLEAR_ERRORS });
-  };
+  // 'watch' state.token and set headers and local storage on any change
+  useEffect(() => {
+    setAuthToken(state.token);
+  }, [state.token]);
 
   return (
-    <AuthContext.Provider
-      value={{
-        token: state.token,
-        isAuthenticated: state.isAuthenticated,
-        loading: state.loading,
-        user: state.user,
-        error: state.error,
-        register,
-        loadUser,
-        login,
-        logout,
-        clearErrors,
-      }}
-    >
+    <AuthContext.Provider value={{ state: state, dispatch }}>
       {props.children}
     </AuthContext.Provider>
   );

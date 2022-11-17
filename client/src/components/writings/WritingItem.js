@@ -1,12 +1,20 @@
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { FiChevronDown, FiMoreHorizontal } from 'react-icons/fi';
-import WritingContext from '../../context/writing/writingContext';
+import {
+  useWritings,
+  deleteWriting,
+  setCurrent,
+  clearCurrent,
+} from '../../context/writing/WritingState';
+
 import './WritingItem.styles.css';
 
-export const WritingItem = ({ id, title, text }) => {
-  const writingContext = useContext(WritingContext);
-  const { deleteWriting, setCurrent, clearCurrent } = writingContext;
+export const WritingItem = ({ writing }) => {
+  // writing dispatch without the state
+  const writingDispatch = useWritings()[1];
+
+  const { _id, title, text } = writing;
 
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,17 +33,13 @@ export const WritingItem = ({ id, title, text }) => {
 
   const onEdit = () => {
     console.log('edited something');
-    setCurrent({
-      id,
-      title,
-      text,
-    });
+    setCurrent({ writingDispatch, writing });
     handleClose();
   };
 
   const onDelete = () => {
-    deleteWriting(id);
-    clearCurrent();
+    deleteWriting(writingDispatch, _id);
+    clearCurrent(writingDispatch);
     handleClose();
   };
 

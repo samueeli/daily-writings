@@ -1,18 +1,17 @@
-import { useContext, useEffect } from 'react';
-import WritingContext from '../../context/writing/writingContext';
+import { useEffect } from 'react';
 import { WritingItem } from './WritingItem';
+import { useWritings, getWritings } from '../../context/writing/WritingState';
 
 const Writings = () => {
-  const writingContext = useContext(WritingContext);
+  const [writingState, writingDispatch] = useWritings();
 
-  const { writings, getWritings } = writingContext;
+  const { writings } = writingState;
 
   useEffect(() => {
-    getWritings();
-    //eslint-disable-next-line
-  }, []);
+    getWritings(writingDispatch);
+  }, [writingDispatch]);
 
-  if (writings === null || writings.length === 0) {
+  if (writings !== null && writings.length === 0) {
     return <p>No writings were found</p>;
   }
 

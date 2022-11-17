@@ -1,11 +1,11 @@
 import {
+  GET_WRITINGS,
   ADD_WRITING,
   DELETE_WRITING,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_WRITING,
   WRITING_ERROR,
-  GET_WRITINGS,
   CLEAR_WRITINGS,
 } from '../types';
 
@@ -15,29 +15,25 @@ const writingReducer = (state, action) => {
       return {
         ...state,
         writings: action.payload,
-        loading: false,
       };
     case ADD_WRITING:
       return {
         ...state,
         writings: [action.payload, ...state.writings],
-        loading: false,
       };
     case UPDATE_WRITING:
       return {
         ...state,
         writings: state.writings.map((writing) =>
-          writing.id === action.payload.id ? action.payload : writing
+          writing._id === action.payload._id ? action.payload : writing
         ),
-        loading: false,
       };
     case DELETE_WRITING:
       return {
         ...state,
         writings: state.writings.filter(
-          (writing) => writing.id !== action.payload
+          (writing) => writing._id !== action.payload
         ),
-        loading: false,
       };
     case CLEAR_WRITINGS:
       return {
@@ -62,7 +58,7 @@ const writingReducer = (state, action) => {
         error: action.payload,
       };
     default:
-      return state;
+      throw new Error(`Unsupported type of: ${action.type}`);
   }
 };
 

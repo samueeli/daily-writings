@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const WritingContext = createContext();
+const writingContext = createContext();
 
-export default WritingContext;
+export default writingContext;
