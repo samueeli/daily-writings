@@ -1,22 +1,24 @@
 import { Button, TextField } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 
 import './Register.styles.css';
 
-const Register = () => {
+const Register = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors } = authContext;
+  const { register, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
     if (error === 'User already exists') {
       setAlert(error, 'error');
       clearErrors();
     }
+    // eslint-disable-next-line
   }, [error]);
 
   const [user, setUser] = useState({
@@ -47,6 +49,8 @@ const Register = () => {
       });
     }
   };
+
+  if (isAuthenticated) return <Navigate to="/" />;
 
   return (
     <div className="RegisterContainer">

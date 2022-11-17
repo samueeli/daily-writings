@@ -1,48 +1,73 @@
 import { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import WritingContext from './writingContext';
 import writingReducer from './writingReducer';
 import {
+  GET_WRITINGS,
+  CLEAR_WRITINGS,
   ADD_WRITING,
   DELETE_WRITING,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_WRITING,
+  WRITING_ERROR,
 } from '../types';
 
 const WritingState = (props) => {
   const initialState = {
-    writings: [
-      {
-        id: 1,
-        title: 'title1',
-        text: 'text1',
-      },
-      {
-        id: 2,
-        title: 'title2',
-        text: 'text2',
-      },
-      {
-        id: 3,
-        title: 'title3',
-        text: 'text3',
-      },
-    ],
+    writings: null,
     current: null,
+    error: null,
   };
 
   const [state, dispatch] = useReducer(writingReducer, initialState);
 
+  // get writings
+  const getWritings = async () => {
+    try {
+      const res = await axios.get('/api/writings');
+      dispatch({
+        type: GET_WRITINGS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: WRITING_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
+  };
+
   // add writing
-  const addWriting = (writing) => {
-    writing.id = uuidv4();
-    dispatch({ type: ADD_WRITING, payload: writing });
+  const addWriting = async (writing) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post('/api/writings', writing, config);
+      dispatch({
+        type: ADD_WRITING,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: WRITING_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
   };
 
   // delete writing
   const deleteWriting = (id) => {
     dispatch({ type: DELETE_WRITING, payload: id });
+  };
+
+  // clear writings
+  const clearWritings = () => {
+    dispatch({ type: CLEAR_WRITINGS });
   };
 
   // set current writing
@@ -65,11 +90,14 @@ const WritingState = (props) => {
       value={{
         writings: state.writings,
         current: state.current,
+        error: state.error,
         addWriting,
         deleteWriting,
         setCurrent,
         clearCurrent,
         updateWriting,
+        getWritings,
+        clearWritings,
       }}
     >
       {props.children}

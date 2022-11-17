@@ -1,9 +1,26 @@
 import { Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
 import './Register.styles.css';
 
 const Login = () => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (error === 'Email or password is incorrect') {
+      setAlert(error, 'error');
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error]);
+
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -16,8 +33,17 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    console.log('samulin login');
+    if (email === '' || password === '') {
+      setAlert('Please fill in all the fields', 'error');
+    } else {
+      login({
+        email,
+        password,
+      });
+    }
   };
+
+  if (isAuthenticated) return <Navigate to="/" />;
 
   return (
     <div className="RegisterContainer">
@@ -29,6 +55,7 @@ const Login = () => {
         name="email"
         value={email}
         onChange={onChange}
+        autoComplete="off"
       />
       <TextField
         type="password"
