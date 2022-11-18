@@ -35,6 +35,10 @@
   margin-right: 1rem;
 }
 
+.WritingItemContainer .WritingItemText {
+  white-space: pre;
+}
+
 .WritingItemContainer .expand button {
   transition: transform 0.2s;
 }

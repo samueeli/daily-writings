@@ -21,12 +21,7 @@ const Writings = () => {
       {writings !== null ? (
         <>
           {writings.map((writing) => (
-            <WritingItem
-              id={writing._id}
-              key={writing._id}
-              title={writing.title}
-              text={writing.text}
-            />
+            <WritingItem writing={writing} key={writing._id} />
           ))}
         </>
       ) : (

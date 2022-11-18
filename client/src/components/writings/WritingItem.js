@@ -32,8 +32,7 @@ export const WritingItem = ({ writing }) => {
   };
 
   const onEdit = () => {
-    console.log('edited something');
-    setCurrent({ writingDispatch, writing });
+    setCurrent(writingDispatch, writing);
     handleClose();
   };
 
@@ -80,7 +79,7 @@ export const WritingItem = ({ writing }) => {
         </div>
       </div>
 
-      <p>{text}</p>
+      <p className="WritingItemText">{text}</p>
       <div className="bottomFader"></div>
     </div>
   );

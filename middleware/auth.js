@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   //get token from header
   const token = req.header('x-auth-token');
 
-  console.log('samuiln middleware', token);
+  console.log('samulin middleware', token);
 
   // check if token is not found
   if (!token) {

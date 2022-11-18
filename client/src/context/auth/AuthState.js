@@ -26,13 +26,17 @@ export const useAuth = () => {
 // Load User
 export const loadUser = async (dispatch) => {
   try {
+    //this doesn't get through
     const res = await axios.get('/api/auth');
+
+    console.log('samulin loadUser works?');
 
     dispatch({
       type: USER_LOADED,
       payload: res.data,
     });
   } catch (err) {
+    console.log('samulin ...so getting an auth error from loadUser');
     dispatch({ type: AUTH_ERROR });
   }
 };
@@ -58,17 +62,14 @@ export const register = async (dispatch, formData) => {
 
 // Login User
 export const login = async (dispatch, formData) => {
+  loadUser(dispatch);
   try {
     const res = await axios.post('/api/auth', formData);
-
-    console.log('samulin contenxt-res', res.data);
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-
-    loadUser(dispatch);
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,
