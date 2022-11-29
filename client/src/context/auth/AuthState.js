@@ -43,6 +43,7 @@ export const loadUser = async (dispatch) => {
 
 // Register User
 export const register = async (dispatch, formData) => {
+  loadUser(dispatch);
   try {
     const res = await axios.post('/api/users', formData);
 
@@ -50,8 +51,6 @@ export const register = async (dispatch, formData) => {
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-
-    loadUser(dispatch);
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL,
