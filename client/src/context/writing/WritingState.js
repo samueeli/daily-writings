@@ -20,8 +20,6 @@ export const useWritings = () => {
   return [state, dispatch];
 };
 
-// Action creators
-
 // Get Writings
 export const getWritings = async (dispatch) => {
   try {

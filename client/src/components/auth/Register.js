@@ -7,12 +7,16 @@ import { useAuth, clearErrors, register } from '../../context/auth/AuthState';
 import './Register.styles.css';
 
 const Register = (props) => {
+  // use alert context
   const alertContext = useContext(AlertContext);
+
+  // use auth state
   const [authState, authDispatch] = useAuth();
   const { error, isAuthenticated } = authState;
 
   const { setAlert } = alertContext;
 
+  // Check for auth errors
   useEffect(() => {
     if (error === 'User already exists') {
       setAlert(error, 'danger');
@@ -20,6 +24,7 @@ const Register = (props) => {
     }
   }, [error, isAuthenticated, props.history, setAlert, authDispatch]);
 
+  // init user state
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -29,13 +34,17 @@ const Register = (props) => {
 
   const { name, email, password, password2 } = user;
 
+  // set state according to user input
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
   const handleRegister = () => {
+    // check for empty input fields
     if (name === '' || email === '' || password === '') {
       setAlert('Please fill all fields!', 'error');
+      // check if passwords match
     } else if (password !== password2) {
       setAlert('Passwords do not match!', 'error');
+      // check if psw is at least 6 characters
     } else if (password.length < 6) {
       setAlert('Password must be at least 6 characters', 'error');
     } else {
@@ -47,6 +56,7 @@ const Register = (props) => {
     }
   };
 
+  // If user is logged in return dashboard
   if (isAuthenticated) return <Navigate to="/" />;
 
   return (

@@ -14,28 +14,35 @@ export const WritingItem = ({ writing }) => {
   // writing dispatch without the state
   const writingDispatch = useWritings()[1];
 
+  // get properties from writing
   const { _id, title, text } = writing;
 
+  // set default states to control writing box open state and menu
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
+  // handle menu click events
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // handle menu close
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  // handle changing writing box open state
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
+  // handle writing edit
   const onEdit = () => {
     setCurrent(writingDispatch, writing);
     handleClose();
   };
 
+  // handle writing delete
   const onDelete = () => {
     deleteWriting(writingDispatch, _id);
     clearCurrent(writingDispatch);

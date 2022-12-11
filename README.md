@@ -40,7 +40,7 @@ All joking aside, some other motives I had for making this project, were to lear
 
 ### Some problem areas
 
-The beginning of the project was all smooth sailing. I started with the backend testing my routes with <a href='https://www.postman.com/'>Postman</a>. Everything was working and running fine. When I began to apply Context to the frontend problems and bugs started to surface. I used a lot of time debugging things and occasionally upgrading/downgrading npm packages etc to make thing work. But problems just seemed to pile up the further I went. At this point I realized that the course I was following was already a few years old (a rookie mistake). The course was not updated and used old syntax, tech and packages. When I realized this, I decided to completely re-do the Context part of the front (the backend was still solid without any problems). Luckily for me, every student from past two years were having the same kind of problems and there was actually an updated repo to learn the new way of doing things.
+The beginning of the project was all smooth sailing. I started with the backend testing my routes with <a href='https://www.postman.com/'>Postman</a>. Everything was working and running fine. When I began to apply Context to the frontend problems and bugs started to surface. I used a lot of time debugging things and occasionally upgrading/downgrading npm packages etc to make thing work. But problems just seemed to pile up the further I went. At this point I realized that the course I was following was already a few years old (a rookie mistake). The course was not updated and used old syntax, tech and packages. When I realized this, I decided to completely re-do the Context part of the frontend (the backend was still solid without any problems). Luckily for me, every student from past two years were having the same kind of problems and there was actually an updated repo to learn the new way of doing things.
 
 Either way, these problems had taken so much time to figure out, that I had to dumb down my app to only a few functionalities. For example, at the moment a new user can create an account, but there is no way to change your account information from UI or even no way to delete you account from UI. Originally I was planning to create that functionality, but at the moment it is only possible to delete a user by logging into the database and manually delete the user document.
 
@@ -54,6 +54,7 @@ Well, problems aside, at least I've got a working app now, even if it lacks in f
   <summary>Client</summary>
   <ul>
     <li><a href="https://javascript.info/">JavaScript</a></li>
+    <li><a href="https://axios-http.com/">Axios</a></li>
     <li><a href="https://reactjs.org/">React.js</a></li>
     <li><a href="https://mui.com/">Material UI</a></li>
   </ul>
@@ -163,7 +164,7 @@ In this project I use Feather Icons from the React Icons library. Those should b
 
 Currently theme styles are not specified, so styles for MUI components come from the library's default values. In the future it would be beneficial to use ThemeProvider and create theme.js where MUI properties and styles could be cutomized to create a custom styles for the app.
 
-For global styles use the App.css file.
+For global styles use the App.css file and css variables are stored in variables.css file.
 
 For component specific styles create a component specific style sheet.
 

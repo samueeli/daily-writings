@@ -9,18 +9,21 @@ import {
 
 import './CreateWriting.styles.css';
 
+// set initial state for writing
 const initialWriting = {
   title: '',
   text: '',
 };
 
 export const CreateWriting = () => {
+  // use writingState
   const [writingState, writingDispatch] = useWritings();
-
   const { current } = writingState;
 
+  // set writing (imput) state to initialWriting
   const [writing, setWriting] = useState(initialWriting);
 
+  // Check if writing exists, then set state to current or initial
   useEffect(() => {
     if (current !== null) {
       setWriting(current);
@@ -32,9 +35,11 @@ export const CreateWriting = () => {
   const { title, text } = writing;
 
   const onChange = (e) => {
+    // set writing state according to input values
     setWriting({ ...writing, [e.target.name]: e.target.value });
   };
 
+  // check if writing is new or existing. If new, create. If old, update.
   const handleSubmit = () => {
     if (current === null) {
       addWriting(writingDispatch, writing).then(() =>

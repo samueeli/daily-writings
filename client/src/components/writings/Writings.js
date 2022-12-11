@@ -3,14 +3,16 @@ import { WritingItem } from './WritingItem';
 import { useWritings, getWritings } from '../../context/writing/WritingState';
 
 const Writings = () => {
+  // use writing state
   const [writingState, writingDispatch] = useWritings();
-
   const { writings } = writingState;
 
+  // get writings with changes in state
   useEffect(() => {
     getWritings(writingDispatch);
   }, [writingDispatch]);
 
+  // If no writing exist, return "no writings" message to user
   if (writings !== null && writings.length === 0) {
     return <p>No writings were found</p>;
   }

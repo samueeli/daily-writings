@@ -10,11 +10,14 @@ import { useWritings, clearWritings } from '../../context/writing/WritingState';
 import './Navbar.styles.css';
 
 export const Navbar = () => {
+  // use authState and get user
   const [authState, authDispatch] = useAuth();
   const { isAuthenticated, user } = authState;
 
+  // init writing state to use onLogout
   const writingDispatch = useWritings()[1];
 
+  // Logout and clear writing state
   const onLogout = () => {
     logout(authDispatch);
     clearWritings(writingDispatch);

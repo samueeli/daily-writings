@@ -3,9 +3,11 @@ import React, { useContext } from 'react';
 import AlertContext from '../../context/alert/alertContext';
 
 const Alerts = (alert) => {
+  // use alert context
   const alertContext = useContext(AlertContext);
 
   return (
+    // check if alerts
     alertContext.alerts.length > 0 &&
     alertContext.alerts.map((alert) => (
       <Alert
