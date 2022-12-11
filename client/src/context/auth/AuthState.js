@@ -26,7 +26,6 @@ export const useAuth = () => {
 // Load User
 export const loadUser = async (dispatch) => {
   try {
-    //this doesn't get through
     const res = await axios.get('/api/auth');
 
     console.log('samulin loadUser works?');
