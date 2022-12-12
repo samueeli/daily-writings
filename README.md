@@ -32,6 +32,8 @@
 
 <br>
 
+### Description
+
 (p.s. If you're busy, just skip this part. Otherwise keep reading at your own risk.)
 
 This project was created for my school course. The basic idea is to have an easy way to write a journal/diary/some other entry on a daily basis. How innovative! Oh I know, there's like a million of these apps on app stores already. So why would I make yet another one. Well, to make the world a better place... Just kidding. My motives were purely selfish. I thought if I would create my own app, then I would be motivated enough to keep a journal which I used to do (a long time ago). Well, that didn't happen. So I guess you could say that this project failed, because it didn't reach the underlying goal. Although that is true, there were some other (also selfish) benefits from doing this project.
