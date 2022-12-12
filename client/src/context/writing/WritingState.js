@@ -95,8 +95,6 @@ export const clearWritings = (dispatch) => {
 
 // Set Current Writing
 export const setCurrent = (dispatch, writing) => {
-  console.log('samulin state writing', writing);
-  console.log('samulin state dispatch', dispatch);
   dispatch({ type: SET_CURRENT, payload: writing });
 };
 

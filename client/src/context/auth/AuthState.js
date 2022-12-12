@@ -28,14 +28,11 @@ export const loadUser = async (dispatch) => {
   try {
     const res = await axios.get('/api/auth');
 
-    console.log('samulin loadUser works?');
-
     dispatch({
       type: USER_LOADED,
       payload: res.data,
     });
   } catch (err) {
-    console.log('samulin ...so getting an auth error from loadUser');
     dispatch({ type: AUTH_ERROR });
   }
 };

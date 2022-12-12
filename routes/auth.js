@@ -29,8 +29,6 @@ router.post(
   check('email', 'Please add a valid email').isEmail(),
   check('password', 'Password is required').exists(),
   async (req, res) => {
-    console.log('samulin express auth post', req.body);
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
